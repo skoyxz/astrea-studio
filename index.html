@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Astréa Studio</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- THREE.JS -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <!-- FONT AWESOME -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+</head>
+
+<body>
+
+<div id="app">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside id="sidebar">
+
+        <div class="logo">
+            <span>ASTRÉA</span>
+            <small>STUDIO</small>
+        </div>
+
+        <div class="sidebar-section">
+
+            <label>Titre du livre</label>
+
+            <input
+                type="text"
+                id="book-title"
+                value="Les Chroniques d'Astréa"
+            >
+
+        </div>
+
+
+        <div class="sidebar-section">
+
+            <label>Format</label>
+
+            <select id="book-format">
+
+                <option value="standard">
+                    Standard — 140 × 210 mm
+                </option>
+
+                <option value="poche">
+                    Poche — 110 × 180 mm
+                </option>
+
+                <option value="grand">
+                    Grand — 160 × 240 mm
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="sidebar-section">
+
+            <label>Couverture</label>
+
+            <input
+                type="color"
+                id="cover-color"
+                value="#17131d"
+            >
+
+        </div>
+
+
+        <!-- =================================================
+             STRUCTURE DU LIVRE
+        ================================================== -->
+
+        <div class="sidebar-section">
+
+            <label>Structure du livre</label>
+
+            <button
+                class="secondary-button"
+                id="btn-front-cover"
+            >
+                <i class="fa-solid fa-book-open"></i>
+                1re de couverture
+            </button>
+
+            <button
+                class="secondary-button"
+                id="btn-back-cover"
+            >
+                <i class="fa-solid fa-book"></i>
+                4e de couverture
+            </button>
+
+            <button
+                class="secondary-button"
+                id="btn-spine"
+            >
+                <i class="fa-solid fa-grip-lines-vertical"></i>
+                Dos du livre
+            </button>
+
+            <button
+                class="secondary-button"
+                id="btn-new-page"
+            >
+                <i class="fa-solid fa-file"></i>
+                Nouvelle page intérieure
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             ÉCRITURE
+        ================================================== -->
+
+        <div class="sidebar-section">
+
+            <button
+                id="btn-writing"
+                class="main-button"
+            >
+                <i class="fa-solid fa-pen"></i>
+                Écrire
+            </button>
+
+            <button
+                id="btn-add-page"
+                class="secondary-button"
+            >
+                <i class="fa-solid fa-plus"></i>
+                Ajouter une page
+            </button>
+
+        </div>
+
+
+        <!-- =================================================
+             NAVIGATION
+        ================================================== -->
+
+        <div class="sidebar-section page-info">
+
+            <div>
+                Page
+                <strong id="page-number">1</strong>
+                /
+                <strong id="page-total">1</strong>
+            </div>
+
+            <div class="sidebar-navigation">
+
+                <button id="btn-prev">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+
+                <button id="btn-next">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="sidebar-section">
+
+            <button
+                id="btn-export"
+                class="secondary-button"
+            >
+                <i class="fa-solid fa-file-pdf"></i>
+                Exporter PDF
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main id="main-viewer">
+
+        <header id="topbar">
+
+            <div>
+
+                <strong id="top-title">
+                    Les Chroniques d'Astréa
+                </strong>
+
+                <span id="editing-status">
+                    Mode lecture
+                </span>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             TOOLBAR
+        ================================================== -->
+
+        <div id="toolbar">
+
+            <button
+                class="tool-button"
+                data-command="bold"
+                title="Gras"
+            >
+                <i class="fa-solid fa-bold"></i>
+            </button>
+
+            <button
+                class="tool-button"
+                data-command="italic"
+                title="Italique"
+            >
+                <i class="fa-solid fa-italic"></i>
+            </button>
+
+            <button
+                class="tool-button"
+                data-command="underline"
+                title="Souligné"
+            >
+                <i class="fa-solid fa-underline"></i>
+            </button>
+
+
+            <div class="toolbar-separator"></div>
+
+
+            <button
+                class="tool-button"
+                data-command="justifyLeft"
+                title="Gauche"
+            >
+                <i class="fa-solid fa-align-left"></i>
+            </button>
+
+            <button
+                class="tool-button"
+                data-command="justifyCenter"
+                title="Centrer"
+            >
+                <i class="fa-solid fa-align-center"></i>
+            </button>
+
+            <button
+                class="tool-button"
+                data-command="justifyRight"
+                title="Droite"
+            >
+                <i class="fa-solid fa-align-right"></i>
+            </button>
+
+
+            <div class="toolbar-separator"></div>
+
+
+            <!-- TAILLE LIBRE -->
+
+            <input
+                type="number"
+                id="font-size"
+                value="20"
+                min="6"
+                max="150"
+                step="1"
+                title="Taille de police"
+            >
+
+            <span class="px-label">px</span>
+
+
+            <input
+                type="color"
+                id="text-color"
+                value="#171717"
+                title="Couleur du texte"
+            >
+
+
+            <div class="toolbar-separator"></div>
+
+
+            <!-- IMAGE -->
+
+            <button
+                class="tool-button image-button"
+                id="btn-image"
+                title="Insérer une image"
+            >
+                <i class="fa-solid fa-image"></i>
+            </button>
+
+            <input
+                type="file"
+                id="image-input"
+                accept="image/*"
+                hidden
+            >
+
+        </div>
+
+
+        <!-- =================================================
+             BOOK
+        ================================================== -->
+
+        <section id="book-container">
+
+            <div id="book-wrapper">
+
+                <div id="book-viewer"></div>
+
+
+                <!-- ÉDITEUR -->
+
+                <div id="page-editor-layer">
+
+                    <div
+                        id="page-editor"
+                        contenteditable="true"
+                        spellcheck="true"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="canvas-prev"
+                class="canvas-navigation left"
+            >
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+
+
+            <button
+                id="canvas-next"
+                class="canvas-navigation right"
+            >
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
